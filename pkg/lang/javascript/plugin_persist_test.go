@@ -181,7 +181,7 @@ func Test_queryKV(t *testing.T) {
 				return
 			}
 
-			cap := core.Annotation{
+			cap := &core.Annotation{
 				Capability: &annotation.Capability{Name: annotation.PersistCapability},
 				Node:       f.Tree().RootNode(),
 			}
@@ -240,7 +240,11 @@ const m = new keyvalueRuntime.dMap({"versioned":true})`,
 			}
 			newF := f.CloneSourceFile()
 
-			cap := f.Annotations()[0]
+			var cap *core.Annotation
+			for _, v := range f.Annotations() {
+				cap = v
+				break
+			}
 			// assuming aws runtime
 			p := persister{
 				runtime: NoopRuntime{},
@@ -341,7 +345,7 @@ func Test_queryFS(t *testing.T) {
 
 			p := persister{}
 
-			fsResult := p.queryFS(f, core.Annotation{
+			fsResult := p.queryFS(f, &core.Annotation{
 				Capability: &annotation.Capability{Name: annotation.PersistCapability},
 				Node:       f.Tree().RootNode(),
 			})
@@ -419,7 +423,7 @@ func Test_queryORM(t *testing.T) {
 
 			p := persister{}
 
-			fsResult := p.queryORM(f, core.Annotation{
+			fsResult := p.queryORM(f, &core.Annotation{
 				Capability: &annotation.Capability{Name: annotation.PersistCapability},
 				Node:       f.Tree().RootNode(),
 			}, true)
@@ -525,7 +529,7 @@ func Test_queryRedis(t *testing.T) {
 
 			p := persister{}
 
-			fsResult := p.queryRedis(f, core.Annotation{
+			fsResult := p.queryRedis(f, &core.Annotation{
 				Capability: &annotation.Capability{Name: annotation.PersistCapability},
 				Node:       f.Tree().RootNode(),
 			}, true)
@@ -611,7 +615,11 @@ const client = createCluster(redis_clusterRuntime.getParams("redis", {
 			}
 			newF := f.CloneSourceFile()
 
-			cap := f.Annotations()[0]
+			var cap *core.Annotation
+			for _, v := range f.Annotations() {
+				cap = v
+				break
+			}
 			// assuming aws runtime
 			p := persister{
 				runtime: NoopRuntime{},
@@ -736,7 +744,7 @@ func Test_inferType(t *testing.T) {
 			}
 			p := persister{}
 
-			fsResult := p.queryFS(f, core.Annotation{
+			fsResult := p.queryFS(f, &core.Annotation{
 				Capability: &annotation.Capability{Name: annotation.PersistCapability},
 				Node:       f.Tree().RootNode(),
 			})

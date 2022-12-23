@@ -82,7 +82,7 @@ func (p *Plugin) handleAnnotations(result *core.CompilationResult) error {
 
 		for _, annot := range ast.Annotations() {
 			log = log.With(logging.AnnotationField(annot))
-			p.checkAnnotationForResource(&annot, result, log)
+			p.checkAnnotationForResource(annot, result, log)
 		}
 	}
 	return errs.ErrOrNil()
